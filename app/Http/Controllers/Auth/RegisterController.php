@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
 use Validator;
+use App\User;
+use App\Company;
+use App\Events\AdminRegistered;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -52,6 +54,12 @@ class RegisterController extends Controller
             'last_name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'name' => 'required|max:255|unique:companies',
+            'address' => 'required|max:1024',
+            'city' => 'required|max:255',
+            'state' => 'required|max:255',
+            'zip' => 'required|max:64',
+            'main_phone' => 'required|max:255',
         ]);
     }
 
@@ -63,21 +71,23 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = User::create([
+        $user = User::adminRegister([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-        ]);
-
-        $user->newSubscription('main', 'roofing_monthly')->trialDays(30)->create($data['stripeToken'], [
-            'email' => $user->email, 
-            'description' => 'Customer from Outline Roofing',
-            'metadata' => [
-                'Client Name' => $user->first_name .' '. $user->last_name,
-            ]
-        ]);
+            'name' => $data['name'],
+            'address' => $data['address'],
+            'address2' => $data['address2'],
+            'city' => $data['city'],
+            'state' => $data['state'],
+            'zip' => $data['zip'],
+            'main_phone' => $data['main_phone'],
+            'stripeToken' => $data['stripeToken'],
+        ]);   
+        
         flash('Congrats on being part of Outline Roofing! Take a look around for the next 30 days. Add your company information, more users, and start saving time and money.', 'success');
+        
         return $user;
     }
 }

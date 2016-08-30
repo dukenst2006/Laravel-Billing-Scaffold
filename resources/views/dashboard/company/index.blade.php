@@ -53,7 +53,7 @@
 					                                <span class="caret"></span><span class="sr-only">Social</span>
 					                            </button>
 					                            <ul class="dropdown-menu" role="menu" data-form="deleteForm">
-					                                <li><a href="#">Add Users</a></li>
+					                                <li><a href="{{ route('users.create')}}">Add Users</a></li>
 					                                <li><a href="{{ route('company.edit', ['id' => $company->id]) }}">Edit Company</a></li>
 						                            <li><a href="{{ route('company.destroy', $company->id) }}" class="form-delete" data-method="delete" name="delete_item" data-token="{{ csrf_token() }}">Delete Company</a>
 						                            </li>

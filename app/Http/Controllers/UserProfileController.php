@@ -15,10 +15,10 @@ class UserProfileController extends Controller
 
 	public function index()
 	{
-		$user = Auth::user();
+		$user = Auth::user();    
 		$invoices = $user->invoices();
-
-	   	return view('dashboard.userprofile.index', compact('user', 'invoices'));
+        $users = Auth::user()->company->users;
+        return view('dashboard.userprofile.index', compact('user', 'invoices', 'users'));
 	}
 
     public function update(UserProfileRequest $request, $id)
@@ -29,15 +29,15 @@ class UserProfileController extends Controller
     	$user->first_name = $request->first_name;
     	$user->last_name = $request->last_name;
     	$user->email = $request->email;
-    	if ( $request->image ) {
+    	if ( $request->image ) { 
             $file = $request->image;
             $extension = $file->getClientOriginalExtension();
             Storage::disk('local')->put(
-                    'person-images/'.$user->first_name.$user->last_name.'-avatar'.$current_time.'.'.$extension,
+                    'avatars/'.$request->last_name.'-logo'.$current_time.'.'.$extension, 
                     file_get_contents($request->file('image')->getRealPath())
             );
-            $user->image = $user->first_name.$user->last_name.'-avatar'.$current_time.'.'.$extension;
-        } else {
+            $user->image = $request->last_name.'-logo'.$current_time.'.'.$extension;
+        }  else {
             $user->image = $user->image;
         }
     	$user->phone = $request->phone;

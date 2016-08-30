@@ -20,11 +20,17 @@ class CreateUsersTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
+            $table->string('address')->nullable();      
+            $table->string('address2')->nullable();      
+            $table->string('city')->nullable();      
+            $table->string('state')->nullable();      
+            $table->string('zip')->nullable(); 
             $table->string('password');
             $table->string('image')->nullable();
             $table->string('phone')->nullable();
             $table->string('phone2')->nullable();
             $table->string('url')->nullable();
+            $table->string('activate_token')->nullable();
             $table->rememberToken();
             $table->string('stripe_id')->nullable();
             $table->string('card_brand')->nullable();

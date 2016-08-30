@@ -19,8 +19,13 @@ class Company extends Model
 		'main_phone',
 	];
 
-    public function user()
+    public function users()
     {
     	return $this->hasMany(User::class);
+    }
+
+    public function company_admin()
+    {
+    	
     }
 }

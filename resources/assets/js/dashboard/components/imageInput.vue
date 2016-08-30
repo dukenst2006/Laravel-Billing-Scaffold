@@ -1,5 +1,4 @@
 <template>
-    <i v-show="! imageSrc" class="icon fa fa-picture-o"></i>
     <img v-show="imageSrc" class="avatar img-circle img-thumbnail" width="200" height="200" alt="avatar" :src="imageSrc">
     <h6>Upload a different photo...</h6>
     <input @change="previewThumbnail" type="file" name="{{ imageName }}" class="text-center center-block well well-sm">
@@ -7,9 +6,8 @@
 
 <script>
 export default {
-
+    name: 'image-input',
     props: [ 'imageSrc' ,'imageName'],
-
     methods: {
         previewThumbnail: function(event) {
             var input = event.target;

@@ -1,8 +1,11 @@
 import Vue from 'vue'
-import imageInput from './components/imageInput.vue';
-import profileTabs from './components/profileTabs.vue';
+import imageInput from './components/imageInput.vue'
+Vue.component('image-input', imageInput)
 
 new Vue({
   el: 'body',
-  components: { imageInput, profileTabs }
-});
+  components: {
+
+  }
+
+})

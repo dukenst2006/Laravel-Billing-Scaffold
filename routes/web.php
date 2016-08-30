@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::resource('user-profile', 'UserProfileController');
 	Route::put('subscription/update-credit-card', 'SubscriptionController@updateCC')->name('subscription.updateCC');
 	Route::resource('subscription', 'SubscriptionController');
+	Route::resource('users', 'UsersController');
 
 });
 

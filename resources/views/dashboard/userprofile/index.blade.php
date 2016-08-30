@@ -8,10 +8,10 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="fa fa-bell fa-fw"></i> User Profile
-            </div>
+                Your Profile
+            </div>           
             <div class="panel-body">
-                <div class="row">
+                <div class="well well-sm">
                     <ul class="nav nav-tabs" role="navigation">
                         <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
                         <li><a href="#password" data-toggle="tab">Change Password</a></li>
@@ -28,7 +28,7 @@
                             @include('dashboard.userprofile._partials.subscriptionsTab')
                         </div>
                     </div>
-                </div>
+                </div>    
             </div>
         </div>
     </div>
