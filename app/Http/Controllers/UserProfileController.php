@@ -16,7 +16,11 @@ class UserProfileController extends Controller
 	public function index()
 	{
 		$user = Auth::user();    
-		$invoices = $user->invoices();
+        if ( $user->hasRole('super_admin') ) {
+		  $invoices = $user->invoices();
+        } else {
+            $invoices = '';
+        }
         $users = Auth::user()->company->users;
         return view('dashboard.userprofile.index', compact('user', 'invoices', 'users'));
 	}
@@ -29,17 +33,7 @@ class UserProfileController extends Controller
     	$user->first_name = $request->first_name;
     	$user->last_name = $request->last_name;
     	$user->email = $request->email;
-    	if ( $request->image ) { 
-            $file = $request->image;
-            $extension = $file->getClientOriginalExtension();
-            Storage::disk('local')->put(
-                    'avatars/'.$request->last_name.'-logo'.$current_time.'.'.$extension, 
-                    file_get_contents($request->file('image')->getRealPath())
-            );
-            $user->image = $request->last_name.'-logo'.$current_time.'.'.$extension;
-        }  else {
-            $user->image = $user->image;
-        }
+    	$user->image = $request->file('image')->store('avatars');
     	$user->phone = $request->phone;
     	$user->phone2 = $request->phone2;
     	$user->url = $request->url;

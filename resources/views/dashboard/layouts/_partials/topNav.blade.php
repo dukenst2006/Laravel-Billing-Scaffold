@@ -1,7 +1,7 @@
 <ul class="nav navbar-top-links navbar-right">
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <img src="{{ isset($user->image) ? url('images/avatars/'.$user->image) : url('images/avatar-blank.png') }}" class="avatar img-circle img-thumbnail" width="20" alt="avatar" > <i class="fa fa-caret-down"></i>            
+            <img src="{{ isset($user->image) ? url('images/'.$user->image) : url('images/avatar-blank.png') }}" class="avatar img-circle img-thumbnail" width="20" alt="avatar" > <i class="fa fa-caret-down"></i>            
         </a>
         <ul class="dropdown-menu dropdown-user">
             <li><a href="{{ route('user-profile.index') }}"><i class="fa fa-user fa-fw"></i> User Profile</a></li>

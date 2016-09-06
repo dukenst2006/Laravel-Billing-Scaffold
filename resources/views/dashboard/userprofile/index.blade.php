@@ -15,7 +15,9 @@
                     <ul class="nav nav-tabs" role="navigation">
                         <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
                         <li><a href="#password" data-toggle="tab">Change Password</a></li>
-                        <li><a href="#subscription" data-toggle="tab">Subscriptions</a></li>
+                        @if ( $user->hasRole('super_admin') )
+                            <li><a href="#subscription" data-toggle="tab">Subscriptions</a></li>
+                        @endif
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="profile">
@@ -24,9 +26,11 @@
                         <div class="tab-pane fade" id="password">
                             @include('dashboard.userprofile._partials.passwordTab')
                         </div>
-                        <div class="tab-pane fade" id="subscription">
-                            @include('dashboard.userprofile._partials.subscriptionsTab')
-                        </div>
+                        @if ( $user->hasRole('super_admin') )
+                            <div class="tab-pane fade" id="subscription">
+                                @include('dashboard.userprofile._partials.subscriptionsTab')
+                            </div>
+                        @endif
                     </div>
                 </div>    
             </div>
@@ -35,9 +39,11 @@
 </div>
 @endsection
 
-@section('modal')
-    @include('dashboard.userprofile._partials.cancelSubscriptionModal')
-@endsection
+@if ( $user->hasRole('super_admin') )
+    @section('modal')
+        @include('dashboard.userprofile._partials.cancelSubscriptionModal')
+    @endsection
+@endif
 
 @section('scripts')
 <script>
@@ -50,7 +56,7 @@
 	$('.nav-tabs a').on('shown.bs.tab', function (e) {
 	    window.location.hash = e.target.hash;
 	});
-
+@if ( $user->hasRole('super_admin') )
     $('[data-method]').append(function(){
         return "\n"+
         "<form action='"+$(this).attr('href')+"' method='POST' name='delete_item' style='display:none'>\n"+
@@ -68,8 +74,7 @@
         .on('click', '#delete-btn', function(){
             $form.submit();
         });
-    });
-
+    });    
 </script>
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script>
@@ -97,5 +102,6 @@
         }
     };
 </script>
+@endif
 @endsection
 

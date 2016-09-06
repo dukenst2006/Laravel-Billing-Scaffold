@@ -10,7 +10,7 @@
                 		    {{ csrf_field() }}
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="text-center">
-                            <image-input image-name="image" image-src="{{ isset($user->image) ? url('images/avatars/'.$user->image) : 'https://placehold.co/300x300' }}"></image-input>
+                            <image-input image-name="image" image-src="{{ isset($user->image) ? url('images/'.$user->image) : 'https://placehold.co/300x300' }}"></image-input>
                         </div>
                     </div>
                     <!-- edit form column -->

@@ -2,6 +2,11 @@
 @import 'mixins';
 
 // Global Styles
+body, html {
+    height:  100%;
+    margin:  0px auto;
+    padding: 0px auto;
+}
 
 body {
     background-color: $gray-lightest;
@@ -11,12 +16,16 @@ body {
 
 #wrapper {
     width: 100%;
+    height:     auto;       /* These two lines were the key. */
+    min-height: 100%;
 }
 
 #page-wrapper {
     padding: 0 15px;
-    min-height: 568px;
     background-color: white;
+    height:     auto;       /* These two lines were the key. */
+    min-height: 100%;
+    margin:     0px auto;
 }
 
 @media(min-width:768px) {

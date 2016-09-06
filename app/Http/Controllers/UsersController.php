@@ -51,7 +51,7 @@ class UsersController extends Controller
             'city' => $request->city,
             'state' => $request->state,
             'zip' => $request->zip,
-            'image' => $request->file('image')->store('person-images'),
+            'image' => $request->file('image')->store('avatars'),
             'phone' => $request->phone,
             'phone2' => $request->phone2,
             'url' => $request->url,
@@ -70,10 +70,17 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
+        $company = Auth::user()->company;
+        $user = User::findOrFail($id);
+        if ( $user->company->id != $company->id ) {
+            flash('Sorry, you can\'t access that user.', 'danger');
+            return redirect()->route('users.index');
+        }
+
+        return view('dashboard.users.show', compact('user'));
         
-       
     }
 
     /**
@@ -96,7 +103,27 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->first_name = $request->first_name; 
+        $user->last_name = $request->last_name; 
+        $user->email = $request->email; 
+        $user->address = $request->address;
+        $user->address2 = $request->address2;
+        $user->city = $request->city;
+        $user->state = $request->state;
+        $user->zip = $request->zip;
+        if ( $request->file('image') ) { 
+            $user->image = $request->file('image')->store('avatars');
+        } else {
+            $user->image = $user->image;
+        }
+        $user->phone = $request->phone;
+        $user->phone2 = $request->phone2;
+        $user->url = $request->url;
+        $user->save();
+        
+        flash('You updated the user!','success');
+        return redirect()->route('users.index');
     }
 
     /**
@@ -107,6 +134,13 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->company()->dissociate()->save();
+        $user->delete();
+        
+        Auth::user()->subscription('main')->decrementQuantity();
+
+       flash('You have deleted the user. We have updated your billing to reflect the change.', 'success');
+       return redirect()->route('users.index');
     }
 }
